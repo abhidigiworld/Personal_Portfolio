@@ -22,7 +22,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="dark:bg-dark-900 bg-gradient-to-b from-gray-800 text-white py-16">
+    <section id="contact" className="dark:bg-dark-900 bg-gradient-to-b from-gray-800 text-white py-16 px-6">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between">
         {/* Contact Form */}
         {!submitted ? (

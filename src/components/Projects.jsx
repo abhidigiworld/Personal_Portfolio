@@ -4,12 +4,23 @@ import { FaChevronLeft, FaChevronRight, FaGithub, FaGlobe } from 'react-icons/fa
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+
+  const updateItemsPerPage = () => {
+    if (window.innerWidth >= 1024) {
+      setItemsPerPage(3);
+    } else if (window.innerWidth >= 740) {
+      setItemsPerPage(2);
+    } else {
+      setItemsPerPage(1);
+    }
+  };
 
   useEffect(() => {
     fetch('https://api.github.com/users/abhidigiworld/repos')
       .then((response) => response.json())
       .then((data) => setRepos(data));
+    updateItemsPerPage();
   }, []);
 
   const handlePrev = () => {
@@ -25,9 +36,9 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="dark:bg-dark-900 text-white py-16">
+    <section id="projects" className="dark:bg-dark-900 text-white py-12 ">
       <div className="container mx-auto text-center relative">
-        <h2 className="text-3xl font-bold text-red-500 mb-6">My Projects</h2>
+        <h2 className="text-2xl lg:text-3xl font-bold text-red-500 mb-8">My Projects</h2>
 
         {/* Carousel Container */}
         <div className="relative">
@@ -40,28 +51,26 @@ const Projects = () => {
               {repos.map((repo) => (
                 <div
                   key={repo.id}
-                  style={{
-                  backgroundColor: 'rgb(38, 32, 41)'
-                  }}
-                  className="bg-dark-800 p-8 rounded-lg min-w-[32.16%] transition-transform duration-300 shadow-lg relative group h-[380px] m-2"
+                  className="bg-dark-800 p-6 sm:p-8 rounded-lg transition-transform duration-300 shadow-lg relative group h-[360px] sm:h-[380px] m-2
+                  min-w-[100%] sm:min-w-[50%] lg:min-w-[32.16%]"
                 >
                   <div className="mb-4">
                     {/* Placeholder image or random GitHub-related image */}
                     <img
                       src={`https://avatars.githubusercontent.com/u/${repo.owner.id}?v=4`}
                       alt={repo.name}
-                      className="mb-4 rounded w-full h-40 object-cover"
+                      className="mb-4 rounded w-full h-32 sm:h-40 object-cover"
                     />
                   </div>
 
                   {/* Title: Visible by default */}
-                  <h3 className="text-xl text-left font-semibold mb-2 transition-opacity duration-300 group-hover:opacity-100 opacity-100">
+                  <h3 className="text-lg sm:text-xl text-left font-semibold mb-2 transition-opacity duration-300 group-hover:opacity-100 opacity-100">
                     {repo.name}
                   </h3>
-                  <p className="text-left mb-1 text-sm">
+                  <p className="text-left mb-1 text-sm sm:text-base">
                     <span className="font-bold">Language:</span> {repo.language || 'N/A'}
                   </p>
-                  <p className="text-left mb-4 text-sm">
+                  <p className="text-left mb-4 text-sm sm:text-base">
                     <span className="font-bold">Created:</span> {new Date(repo.created_at).toLocaleDateString()}
                   </p>
 
@@ -70,7 +79,7 @@ const Projects = () => {
 
                   {/* Description and GitHub + Website Links: Hidden initially, visible on hover */}
                   <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-80 bg-black transition-opacity duration-500 text-center p-4">
-                    <p className="mb-4 text-base">
+                    <p className="mb-4 text-sm sm:text-base">
                       {repo.description ? repo.description : 'No description available'}
                     </p>
 

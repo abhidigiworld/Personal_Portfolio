@@ -7,6 +7,7 @@ html {
   background: linear-gradient(to bottom right, rgb(34, 0, 0), #1a202c, #7f1d1d);
   background-size: 400% 400%; 
   animation: gradientBackground 10s ease infinite; 
+  box-sizing: border-box;
 }
 
 

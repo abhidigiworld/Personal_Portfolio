@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa'; // Importing GitHub and L
 
 const Footer = () => {
   return (
-    <footer className="py-2">
+    <footer className="p-2">
       <div className="container mx-auto text-center text-gray-200">
         <div className="mt-1 flex justify-center space-x-6">
           <a
