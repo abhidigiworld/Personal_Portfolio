@@ -6,7 +6,6 @@ import About from './components/About';
 import Experience from './components/Experience';
 import Certifications from './components/Certifications';
 import Projects from './components/Projects';
-import VideoCV from './components/VideoCV';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Interactive3DCanvas from './components/Interactive3DCanvas';
@@ -30,7 +29,6 @@ function App() {
         <Experience />
         <Certifications />
         <Projects />
-        <VideoCV />
         <Contact />
       </main>
 

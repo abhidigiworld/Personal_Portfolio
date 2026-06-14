@@ -6,28 +6,28 @@ import AnimateIn from './AnimateIn';
 const curatedProjects = [
   {
     title: 'SmartRAG AI (NeXTRAG)',
-    description: 'A professional-grade RAG application bridging private data with real-time web intelligence. Implements a multi-stage Python/React ingestion and retrieval pipeline to enable highly accurate, cited, and context-aware responses.',
+    description: 'A document analysis tool that allows users to upload PDF documents and query them alongside live web search results using LLMs.',
     tech: ['React.js', 'Python', 'LLMs', 'RAG Systems', 'Web Search'],
     github: 'https://github.com/abhidigiworld/NeXTRAG',
     live: '',
   },
   {
     title: 'AutomationAgent - AI Testing',
-    description: 'An autonomous AI testing framework automating complex, multi-step validation processes. Employs intelligent agents capable of dynamic decision-making, exception handling, and self-correction within QA pipelines.',
+    description: 'A testing tool that uses LLMs to automate UI workflows, capture screenshots, and automatically diagnose errors using Playwright.',
     tech: ['Node.js', 'LLM SDKs', 'Playwright', 'Agentic Testing', 'QA Automation'],
     github: 'https://github.com/abhidigiworld/AutomationAgent',
     live: '',
   },
   {
     title: 'Spring Boot E-Commerce System',
-    description: 'A scalable backend system employing Microservices Architecture and secured via JWT-based authentication. Handles client routing, product registries, order state processing, and deployment pipelines.',
+    description: 'A REST API backend for e-commerce platforms built with Spring Boot, secured with JWT, and containerized using Docker.',
     tech: ['Spring Boot', 'Java', 'Microservices', 'JWT Security', 'Docker', 'AWS'],
     github: 'https://github.com/abhidigiworld/Ecommerce',
     live: '',
   },
   {
     title: 'CreditCarc - Concurrent Engine',
-    description: 'A high-performance concurrent credit-card transaction processor simulating real-time validation. Employs POSIX threads, shared memory, and semaphores for fast retrieval, concurrency, and thread safety.',
+    description: 'A command-line transaction processing simulator written in C using POSIX threads and shared memory to handle secure data transfers.',
     tech: ['C', 'POSIX Threads', 'Shared Memory', 'Semaphores', 'Data Structures'],
     github: 'https://github.com/abhidigiworld/CreditCarc',
     live: '',
