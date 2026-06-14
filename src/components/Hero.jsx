@@ -8,10 +8,10 @@ const Hero = () => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const phrases = [
+    'Claude Certified Architect',
+    'Programmer Analyst Trainee',
+    'AI & LLM / RAG Developer',
     'Full-Stack Developer',
-    'React & Node.js Enthusiast',
-    'Creative UI/UX Designer',
-    'Problem Solver',
   ];
   const typingSpeed = 100;
   const deletingSpeed = 50;
@@ -55,8 +55,8 @@ const Hero = () => {
         {/* Left Side: Copy */}
         <div className="lg:col-span-7 flex flex-col justify-center text-center lg:text-left space-y-6 order-2 lg:order-1">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 self-center lg:self-start">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Available for internships</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Programmer Analyst Trainee @ Cognizant</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
@@ -72,12 +72,12 @@ const Hero = () => {
           </div>
 
           <p className="text-base sm:text-lg text-white/60 max-w-xl mx-auto lg:mx-0 font-medium">
-            A final-year Computer Science student passionate about building highly interactive, responsive, and scalable web solutions using modern frontend and backend technologies.
+            A Computer Science professional specializing in Large Language Models (LLMs), RAG systems, and full-stack development. Claude Certified Architect serving as a Programmer Analyst Trainee at Cognizant.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
             <a
-              href="https://drive.google.com/file/d/1PJLqmMDdiB-sbNJ4RxKyb8M9xOiX5onf/view?usp=drive_link"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3.5 rounded-xl bg-primary text-white font-bold hover:bg-primary/95 transition-all duration-300 shadow-[0_8px_25px_rgba(var(--color-primary)/0.35)] hover:shadow-[0_12px_30px_rgba(var(--color-primary)/0.5)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0"

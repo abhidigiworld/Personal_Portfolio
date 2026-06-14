@@ -1,28 +1,28 @@
 import React from 'react';
 import Card3DTilt from './Card3DTilt';
-import { FaGraduationCap, FaCertificate, FaLaptopCode, FaTools, FaCode, FaAward } from 'react-icons/fa';
+import { FaGraduationCap, FaCertificate, FaLaptopCode, FaTools, FaCode, FaAward, FaBrain } from 'react-icons/fa';
 
 const About = () => {
   const skillsData = [
     {
-      category: 'Frontend Stack',
-      icon: FaLaptopCode,
-      skills: ['React.js', 'Angular', 'Tailwind CSS', 'JavaScript (ES6+)', 'HTML5 & CSS3'],
+      category: 'AI & LLM Stack',
+      icon: FaBrain,
+      skills: ['RAG Systems', 'Agentic Testing', 'Large Language Models (LLMs)'],
     },
     {
-      category: 'Backend & DB',
-      icon: FaTools,
-      skills: ['Node.js', 'Express.js', 'MongoDB', 'RESTful APIs', 'SQL'],
+      category: 'Web & Frameworks',
+      icon: FaLaptopCode,
+      skills: ['React.js', 'Spring Boot', 'Node.js', 'Microservices', 'RESTful APIs', 'HTML5 & CSS3'],
     },
     {
       category: 'Core & Languages',
       icon: FaCode,
-      skills: ['Java', 'Object-Oriented Programming', 'Data Structures & Algorithms'],
+      skills: ['Java', 'C', 'JavaScript (ES6+)', 'Perl'],
     },
     {
-      category: 'Tools & Certifications',
-      icon: FaAward,
-      skills: ['Git & GitHub', 'Postman', 'IBM React Developer Certificate', 'Agile Methodology'],
+      category: 'Databases & Tools',
+      icon: FaTools,
+      skills: ['MySQL', 'SQLite', 'Git & GitHub', 'Docker', 'AWS', 'Oracle BRM'],
     },
   ];
 
@@ -47,10 +47,10 @@ const About = () => {
                   <span className="text-gradient">My Journey</span>
                 </h3>
                 <p className="text-white/70 leading-relaxed text-sm sm:text-base">
-                  I am a final-year B.Tech Computer Science student at Lovely Professional University, specializing in Full-Stack Web Development.
+                  I am a Computer Science graduate from Lovely Professional University and currently a Programmer Analyst Trainee at Cognizant.
                 </p>
                 <p className="text-white/70 leading-relaxed text-sm sm:text-base">
-                  My programming journey is focused on crafting digital experiences that are not only visually spectacular but also performant and scalable under the hood. I enjoy bridging the gap between design and solid engineering.
+                  Specializing in Large Language Models (LLMs), Retrieval-Augmented Generation (RAG) systems, and full-stack development, I build autonomous AI agentic frameworks and scalable web applications.
                 </p>
               </div>
 
@@ -61,9 +61,9 @@ const About = () => {
                     <FaGraduationCap className="text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">B.Tech in Computer Science</h4>
+                    <h4 className="font-bold text-white text-sm">B.Tech in Computer Science & Engineering</h4>
                     <p className="text-xs text-white/50">Lovely Professional University</p>
-                    <p className="text-xs text-primary/80 font-bold mt-1">CGPA: 8.27/10 (Expected 2026)</p>
+                    <p className="text-xs text-primary/80 font-bold mt-1">CGPA: 7.68/10 (Graduated 2025)</p>
                   </div>
                 </div>
 
@@ -72,8 +72,8 @@ const About = () => {
                     <FaCertificate className="text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">IBM Professional Certificate</h4>
-                    <p className="text-xs text-white/50">React Web Developer Specialist</p>
+                    <h4 className="font-bold text-white text-sm">Claude Certified Architect</h4>
+                    <p className="text-xs text-white/50">Anthropic / Skilljar (May 2026)</p>
                   </div>
                 </div>
               </div>

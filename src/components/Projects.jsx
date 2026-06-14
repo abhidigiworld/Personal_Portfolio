@@ -4,24 +4,24 @@ import Card3DTilt from './Card3DTilt';
 
 const curatedProjects = [
   {
+    title: 'NeXTRAG - RAG Application',
+    description: 'Developed a Retrieval-Augmented Generation (RAG) application to enhance LLM outputs by retrieving and grounding responses with real-time, external data, significantly reducing response hallucinations. Features a scalable ingestion pipeline for contextual documents.',
+    tech: ['React.js', 'Node.js', 'LLMs', 'RAG Systems', 'Vector Search'],
+    github: 'https://github.com/abhidigiworld/NeXTRAG',
+    live: '',
+  },
+  {
+    title: 'AutomationAgent - AI Agentic Testing',
+    description: 'Engineered an AI agentic testing framework to automate complex, multi-step validation processes. Designed autonomous agents capable of dynamic decision-making and self-correction within a testing environment for robust QA.',
+    tech: ['Node.js', 'LLM SDKs', 'Playwright', 'Agentic Testing', 'Automation'],
+    github: 'https://github.com/abhidigiworld/AutomationAgent',
+    live: '',
+  },
+  {
     title: 'Sakshi Enterprise Billing System',
-    description: 'A complete billing and invoice generation system designed for enterprises. Features real-time tax calculations, PDF invoice generation, client management, and order history tracking.',
+    description: 'Developed a complete enterprise billing and invoice generation system designed for Sakshi Enterprise. Features real-time tax calculations, automated PDF invoice generation, and customer relationship management.',
     tech: ['React.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
-    github: 'https://github.com/abhidigiworld/Sakshi-Enterprise-Billing',
-    live: '',
-  },
-  {
-    title: 'Docket - Modern Task Planner',
-    description: 'A feature-rich personal dashboard to manage daily tasks, track timelines, organize boards, and archive logs. Offers high performance drag and drop interfaces.',
-    tech: ['React.js', 'Context API', 'Local Storage', 'CSS Transitions'],
-    github: 'https://github.com/abhidigiworld/Docket',
-    live: '',
-  },
-  {
-    title: 'Photographer Portfolio',
-    description: 'A premium, media-rich showcase website for professional photographers. Features lazy-loaded image galleries, category filtering, a booking assistant, and responsive styling.',
-    tech: ['HTML5', 'Vanilla CSS', 'JavaScript', 'AOS Library'],
-    github: 'https://github.com/abhidigiworld/Photographer-Portfolio',
+    github: 'https://github.com/abhidigiworld/bills',
     live: '',
   },
 ];

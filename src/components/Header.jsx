@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HomeIcon, UserIcon, BriefcaseIcon, EnvelopeIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UserIcon, BriefcaseIcon, CodeBracketIcon, EnvelopeIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,8 @@ const Header = () => {
   const navLinks = [
     { href: '#home', label: 'Home', icon: HomeIcon },
     { href: '#about', label: 'About', icon: UserIcon },
-    { href: '#projects', label: 'Projects', icon: BriefcaseIcon },
+    { href: '#experience', label: 'Experience', icon: BriefcaseIcon },
+    { href: '#projects', label: 'Projects', icon: CodeBracketIcon },
     { href: '#contact', label: 'Contact', icon: EnvelopeIcon },
   ];
 
