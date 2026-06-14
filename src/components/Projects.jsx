@@ -5,24 +5,31 @@ import AnimateIn from './AnimateIn';
 
 const curatedProjects = [
   {
-    title: 'NeXTRAG - RAG Application',
-    description: 'Developed a Retrieval-Augmented Generation (RAG) application to enhance LLM outputs by retrieving and grounding responses with real-time, external data, significantly reducing response hallucinations. Features a scalable ingestion pipeline for contextual documents.',
-    tech: ['React.js', 'Node.js', 'LLMs', 'RAG Systems', 'Vector Search'],
+    title: 'SmartRAG AI (NeXTRAG)',
+    description: 'A professional-grade RAG application bridging private data with real-time web intelligence. Implements a multi-stage Python/React ingestion and retrieval pipeline to enable highly accurate, cited, and context-aware responses.',
+    tech: ['React.js', 'Python', 'LLMs', 'RAG Systems', 'Web Search'],
     github: 'https://github.com/abhidigiworld/NeXTRAG',
     live: '',
   },
   {
-    title: 'AutomationAgent - AI Agentic Testing',
-    description: 'Engineered an AI agentic testing framework to automate complex, multi-step validation processes. Designed autonomous agents capable of dynamic decision-making and self-correction within a testing environment for robust QA.',
-    tech: ['Node.js', 'LLM SDKs', 'Playwright', 'Agentic Testing', 'Automation'],
+    title: 'AutomationAgent - AI Testing',
+    description: 'An autonomous AI testing framework automating complex, multi-step validation processes. Employs intelligent agents capable of dynamic decision-making, exception handling, and self-correction within QA pipelines.',
+    tech: ['Node.js', 'LLM SDKs', 'Playwright', 'Agentic Testing', 'QA Automation'],
     github: 'https://github.com/abhidigiworld/AutomationAgent',
     live: '',
   },
   {
-    title: 'Sakshi Enterprise Billing System',
-    description: 'Developed a complete enterprise billing and invoice generation system designed for Sakshi Enterprise. Features real-time tax calculations, automated PDF invoice generation, and customer relationship management.',
-    tech: ['React.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
-    github: 'https://github.com/abhidigiworld/bills',
+    title: 'Spring Boot E-Commerce System',
+    description: 'A scalable backend system employing Microservices Architecture and secured via JWT-based authentication. Handles client routing, product registries, order state processing, and deployment pipelines.',
+    tech: ['Spring Boot', 'Java', 'Microservices', 'JWT Security', 'Docker', 'AWS'],
+    github: 'https://github.com/abhidigiworld/Ecommerce',
+    live: '',
+  },
+  {
+    title: 'CreditCarc - Concurrent Engine',
+    description: 'A high-performance concurrent credit-card transaction processor simulating real-time validation. Employs POSIX threads, shared memory, and semaphores for fast retrieval, concurrency, and thread safety.',
+    tech: ['C', 'POSIX Threads', 'Shared Memory', 'Semaphores', 'Data Structures'],
+    github: 'https://github.com/abhidigiworld/CreditCarc',
     live: '',
   },
 ];
@@ -96,7 +103,7 @@ const Projects = () => {
         </AnimateIn>
 
         {/* Curated Top Projects */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {curatedProjects.map((p, idx) => (
             <AnimateIn key={idx} direction="up" delay={idx * 150}>
             <Card3DTilt className="p-8 border border-white/10 flex flex-col justify-between h-[420px]" maxRotation={10}>
