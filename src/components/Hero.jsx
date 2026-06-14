@@ -123,7 +123,7 @@ const Hero = () => {
       </div>
 
       {/* Animated Scroll Down Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1.5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
         <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest">Scroll Down</span>
         <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center p-1.5">
           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" />
