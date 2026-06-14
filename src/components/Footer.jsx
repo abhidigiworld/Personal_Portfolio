@@ -36,7 +36,7 @@ const Footer = () => {
           </nav>
 
           {/* Social Links Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative z-30">
             <a
               href="https://github.com/abhidigiworld"
               target="_blank"
