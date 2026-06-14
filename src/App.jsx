@@ -8,19 +8,30 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import VideoCV from './components/VideoCV';
 import LeetCodeFetcher from './components/LeetCodeFetcher';
+import Interactive3DCanvas from './components/Interactive3DCanvas';
+import ThemeCustomizer from './components/ThemeCustomizer';
 
 function App() {
   return (
-    <div className="dark">
+    <div className="relative min-h-screen">
+      {/* 3D Particle Constellation Background Layer */}
+      <Interactive3DCanvas />
+
+      {/* Floating Theme / Color Switcher customizer */}
+      <ThemeCustomizer />
+
+      {/* Navigation Bar */}
       <Header />
-      <main>
+
+      <main className="relative z-10">
         <Hero />
         <About />
-        <VideoCV/>
+        <VideoCV />
         <Projects />
-        <LeetCodeFetcher/>
+        <LeetCodeFetcher />
         <Contact />
       </main>
+
       <Footer />
     </div>
   );

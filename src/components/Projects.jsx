@@ -1,15 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaGithub, FaGlobe } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaGithub, FaGlobe, FaFolder, FaCodeBranch, FaExternalLinkAlt } from 'react-icons/fa';
+import Card3DTilt from './Card3DTilt';
+
+const curatedProjects = [
+  {
+    title: 'Sakshi Enterprise Billing System',
+    description: 'A complete billing and invoice generation system designed for enterprises. Features real-time tax calculations, PDF invoice generation, client management, and order history tracking.',
+    tech: ['React.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
+    github: 'https://github.com/abhidigiworld/Sakshi-Enterprise-Billing',
+    live: '',
+  },
+  {
+    title: 'Docket - Modern Task Planner',
+    description: 'A feature-rich personal dashboard to manage daily tasks, track timelines, organize boards, and archive logs. Offers high performance drag and drop interfaces.',
+    tech: ['React.js', 'Context API', 'Local Storage', 'CSS Transitions'],
+    github: 'https://github.com/abhidigiworld/Docket',
+    live: '',
+  },
+  {
+    title: 'Photographer Portfolio',
+    description: 'A premium, media-rich showcase website for professional photographers. Features lazy-loaded image galleries, category filtering, a booking assistant, and responsive styling.',
+    tech: ['HTML5', 'Vanilla CSS', 'JavaScript', 'AOS Library'],
+    github: 'https://github.com/abhidigiworld/Photographer-Portfolio',
+    live: '',
+  },
+];
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [loading, setLoading] = useState(true);
 
   const updateItemsPerPage = () => {
     if (window.innerWidth >= 1024) {
       setItemsPerPage(3);
-    } else if (window.innerWidth >= 740) {
+    } else if (window.innerWidth >= 768) {
       setItemsPerPage(2);
     } else {
       setItemsPerPage(1);
@@ -17,118 +43,186 @@ const Projects = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://api.github.com/users/abhidigiworld/repos')
       .then((response) => response.json())
-      .then((data) => setRepos(data));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          // Sort repos by updated_at or stars
+          const sorted = data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+          setRepos(sorted);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch github repos', err);
+        setLoading(false);
+      });
+
     updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Math.floor(repos.length / itemsPerPage) - 1 : prevIndex - 1
+      prevIndex === 0 ? Math.max(0, repos.length - itemsPerPage) : prevIndex - 1
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === Math.floor(repos.length / itemsPerPage) - 1 ? 0 : prevIndex + 1
+      prevIndex >= repos.length - itemsPerPage ? 0 : prevIndex + 1
     );
   };
 
   return (
-    <section id="projects" className="dark:bg-dark-900 text-white py-12 ">
-      <div className="container mx-auto text-center relative">
-        <h2 className="text-2xl lg:text-3xl font-bold text-red-500 mb-8">My Projects</h2>
+    <section id="projects" className="py-24 relative px-6 overflow-hidden">
+      {/* Dynamic Background Aura */}
+      <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full bg-primary/10 blur-[150px] -z-10 animate-pulse-slow" />
+      <div className="absolute bottom-1/3 right-0 w-96 h-96 rounded-full bg-secondary/10 blur-[150px] -z-10 animate-pulse-slow" />
 
-        {/* Carousel Container */}
-        <div className="relative">
-          {/* Project Cards Carousel */}
-          <div className="overflow-hidden w-full">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-            >
-              {repos.map((repo) => (
-                <div
-                  key={repo.id}
-                  className="bg-dark-800 p-6 sm:p-8 rounded-lg transition-transform duration-300 shadow-lg relative group h-[360px] sm:h-[380px] m-2
-                  min-w-[100%] sm:min-w-[50%] lg:min-w-[32.16%]"
-                >
-                  <div className="mb-4">
-                    {/* Placeholder image or random GitHub-related image */}
-                    <img
-                      src={`https://avatars.githubusercontent.com/u/${repo.owner.id}?v=4`}
-                      alt={repo.name}
-                      className="mb-4 rounded w-full h-32 sm:h-40 object-cover"
-                    />
-                  </div>
+      <div className="container mx-auto max-w-6xl">
+        {/* Section Title */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">My Projects</h2>
+          <p className="text-white/50 text-sm max-w-md mx-auto">
+            A selection of my core engineering projects, followed by live repositories dynamically fetched from GitHub.
+          </p>
+          <div className="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mt-4" />
+        </div>
 
-                  {/* Title: Visible by default */}
-                  <h3 className="text-lg sm:text-xl text-left font-semibold mb-2 transition-opacity duration-300 group-hover:opacity-100 opacity-100">
-                    {repo.name}
-                  </h3>
-                  <p className="text-left mb-1 text-sm sm:text-base">
-                    <span className="font-bold">Language:</span> {repo.language || 'N/A'}
-                  </p>
-                  <p className="text-left mb-4 text-sm sm:text-base">
-                    <span className="font-bold">Created:</span> {new Date(repo.created_at).toLocaleDateString()}
-                  </p>
-
-                  {/* Background Blur Effect on Hover */}
-                  <div className="absolute inset-0 bg-dark-800 transition duration-300 group-hover:backdrop-blur-md group-hover:bg-opacity-80" />
-
-                  {/* Description and GitHub + Website Links: Hidden initially, visible on hover */}
-                  <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-80 bg-black transition-opacity duration-500 text-center p-4">
-                    <p className="mb-4 text-sm sm:text-base">
-                      {repo.description ? repo.description : 'No description available'}
-                    </p>
-
-                    {/* GitHub Button */}
-                    <button className="mb-2 bg-black">
-                      <a
-                        href={repo.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center text-white py-2 px-4 rounded transition-all shadow-lg hover:shadow-2xl hover:border border-white transform hover:scale-105"
-                      >
-                        <FaGithub className="mr-2" />
-                        View on GitHub
-                      </a>
-                    </button>
-
-                    {/* Website Button (only if the homepage URL exists) */}
-                    {repo.homepage && (
-                      <button>
-                        <a
-                          href={repo.homepage}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center bg-red-500 text-white py-2 px-4 rounded transition-all shadow-lg hover:shadow-2xl hover:border border-white transform hover:scale-105"
-                        >
-                          <FaGlobe className="mr-2" />
-                          Visit Website
-                        </a>
-                      </button>
-                    )}
-                  </div>
+        {/* Curated Top Projects */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+          {curatedProjects.map((p, idx) => (
+            <Card3DTilt key={idx} className="p-8 border border-white/10 flex flex-col justify-between h-[420px]" maxRotation={10}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-primary">
+                  <FaFolder className="text-2xl" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-white/50">Featured</span>
                 </div>
-              ))}
+                <h3 className="text-xl font-bold text-white leading-snug">{p.title}</h3>
+                <p className="text-white/60 text-xs sm:text-sm leading-relaxed line-clamp-4">{p.description}</p>
+              </div>
+
+              <div>
+                {/* Tech Badges */}
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {p.tech.map((t, tIdx) => (
+                    <span key={tIdx} className="text-[10px] font-bold py-1 px-2.5 rounded bg-white/5 text-white/70 border border-white/5">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Project Links */}
+                <div className="flex gap-4">
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10 flex items-center justify-center gap-2 text-xs transition-colors"
+                  >
+                    <FaGithub /> GitHub
+                  </a>
+                  {p.live && (
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 rounded-lg bg-primary hover:bg-primary/95 text-white font-bold flex items-center justify-center gap-2 text-xs transition-colors"
+                    >
+                      <FaExternalLinkAlt /> Live Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Card3DTilt>
+          ))}
+        </div>
+
+        {/* GitHub Repository Explorer */}
+        <div>
+          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white">Dynamic Repository Explorer</h3>
+              <p className="text-xs text-white/40 mt-1">Live updates directly from GitHub</p>
             </div>
+            {/* Slider Navigation Buttons */}
+            {repos.length > itemsPerPage && (
+              <div className="flex gap-2">
+                <button
+                  onClick={handlePrev}
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-colors"
+                  aria-label="Previous Repository"
+                >
+                  <FaChevronLeft size={14} />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-colors"
+                  aria-label="Next Repository"
+                >
+                  <FaChevronRight size={14} />
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={handlePrev}
-            className="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-red-500 p-3 rounded-full text-white hover:bg-red-600"
-          >
-            <FaChevronLeft size={20} />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-red-500 p-3 rounded-full text-white hover:bg-red-600"
-          >
-            <FaChevronRight size={20} />
-          </button>
+          {loading ? (
+            <div className="text-center py-12 text-primary animate-pulse text-lg font-bold">Fetching repositories...</div>
+          ) : repos.length === 0 ? (
+            <div className="text-center py-12 text-white/40">No repository data found on GitHub.</div>
+          ) : (
+            <div className="overflow-hidden px-1 py-4">
+              <div
+                className="flex transition-transform duration-500 ease-out gap-6"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
+                }}
+              >
+                {repos.map((repo) => (
+                  <div
+                    key={repo.id}
+                    className="flex-shrink-0"
+                    style={{
+                      width: `calc(${100 / itemsPerPage}% - ${(itemsPerPage - 1) * 24 / itemsPerPage}px)`,
+                    }}
+                  >
+                    <Card3DTilt className="p-6 border border-white/5 flex flex-col justify-between h-[300px]" maxRotation={8}>
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-start">
+                          <FaCodeBranch className="text-xl text-secondary" />
+                          <span className="text-[10px] font-bold py-0.5 px-2 bg-primary/10 text-primary border border-primary/20 rounded">
+                            {repo.language || 'Code'}
+                          </span>
+                        </div>
+                        <h4 className="font-extrabold text-white text-base sm:text-lg tracking-wide line-clamp-1">{repo.name}</h4>
+                        <p className="text-white/50 text-xs leading-relaxed line-clamp-3">
+                          {repo.description || 'Interactive repository showcasing technical architecture and utility design.'}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                        <span className="text-[10px] text-white/30">
+                          Updated: {new Date(repo.updated_at).toLocaleDateString()}
+                        </span>
+                        <a
+                          href={repo.html_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-lg bg-white/5 hover:bg-primary text-white border border-white/10 hover:border-transparent transition-all duration-300"
+                          title="Open Repo Link"
+                        >
+                          <FaGithub className="text-sm" />
+                        </a>
+                      </div>
+                    </Card3DTilt>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

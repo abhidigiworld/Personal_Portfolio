@@ -2,48 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Default Theme: Cosmic Violet */
+  --color-primary: 99 102 241; /* indigo-500 */
+  --color-secondary: 168 85 247; /* purple-500 */
+  --color-accent: 236 72 153; /* pink-500 */
+  --color-bg-base: 15 23 42; /* slate-900 */
+  --color-bg-card: 30 41 59; /* slate-800 */
+  --color-text-base: 248 250 252; /* slate-50 */
+}
+
+/* Theme Presets */
+.theme-violet {
+  --color-primary: 99 102 241;
+  --color-secondary: 168 85 247;
+  --color-accent: 236 72 153;
+  --color-bg-base: 15 23 42;
+  --color-bg-card: 30 41 59;
+  --color-text-base: 248 250 252;
+}
+
+.theme-cyber {
+  --color-primary: 6 182 212; /* cyan-500 */
+  --color-secondary: 244 63 94; /* rose-500 */
+  --color-accent: 234 179 8; /* yellow-500 */
+  --color-bg-base: 9 9 11; /* zinc-950 */
+  --color-bg-card: 24 24 27; /* zinc-900 */
+  --color-text-base: 250 250 250;
+}
+
+.theme-emerald {
+  --color-primary: 16 185 129; /* emerald-500 */
+  --color-secondary: 20 184 166; /* teal-500 */
+  --color-accent: 245 158 11; /* amber-500 */
+  --color-bg-base: 2 44 34; /* emerald-950 */
+  --color-bg-card: 6 78 59; /* emerald-900 */
+  --color-text-base: 240 253 250;
+}
+
+.theme-sunset {
+  --color-primary: 239 68 68; /* red-500 */
+  --color-secondary: 249 115 22; /* orange-500 */
+  --color-accent: 234 179 8; /* yellow-500 */
+  --color-bg-base: 24 4 4; /* very dark red */
+  --color-bg-card: 45 10 10;
+  --color-text-base: 254 242 242;
+}
+
+.theme-solar {
+  --color-primary: 245 158 11; /* amber-500 */
+  --color-secondary: 217 119 6; /* amber-600 */
+  --color-accent: 59 130 246; /* blue-500 */
+  --color-bg-base: 12 10 9; /* stone-950 */
+  --color-bg-card: 28 25 23; /* stone-900 */
+  --color-text-base: 250 250 249;
+}
+
 html {
   scroll-behavior: smooth;
-  background: linear-gradient(to bottom right, rgb(34, 0, 0), #1a202c, #7f1d1d);
-  background-size: 400% 400%; 
-  animation: gradientBackground 10s ease infinite; 
   box-sizing: border-box;
 }
 
-
-/* Keyframes for background gradient animation */
-@keyframes gradientBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+body {
+  background-color: rgb(var(--color-bg-base));
+  color: rgb(var(--color-text-base));
+  font-family: 'Nunito', sans-serif;
+  transition: background-color 0.5s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
-
-/* Add these styles to your CSS file */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease forwards; /* Duration and easing for the fade-in effect */
+/* Glassmorphism Styles */
+.glass-container {
+  background: rgba(var(--color-bg-card) / 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.nunito-write {
-  font-family: "Nunito", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
+.glass-nav {
+  background: rgba(var(--color-bg-base) / 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(var(--color-primary) / 0.4);
+  box-shadow: 0 10px 40px -10px rgba(var(--color-primary) / 0.3);
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-bg-base));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-primary) / 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-primary) / 0.7);
+}
+
+/* Typography Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-secondary)), rgb(var(--color-accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glare Layer for 3D Cards */
+.card-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 80%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glass-card:hover .card-glare {
+  opacity: 1;
 }

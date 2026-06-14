@@ -1,139 +1,297 @@
-// src/components/Contact.jsx
-import React, { useState } from 'react';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaPhoneAlt } from 'react-icons/fa'; 
+import React, { useState, useEffect, useRef } from 'react';
+import { FaTwitter, FaLinkedin, FaEnvelope, FaPhoneAlt, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import Card3DTilt from './Card3DTilt';
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState(''); // State for name
-  const [email, setEmail] = useState(''); // State for email
-  const [message, setMessage] = useState(''); // State for message
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  
+  // Confetti Canvas references
+  const canvasRef = useRef(null);
+  const animationRef = useRef(null);
+
+  const triggerConfetti = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#818cf8', '#a78bfa', '#f472b6', '#34d399', '#fbbf24', '#f87171'];
+    const particles = [];
+
+    class Confetti {
+      constructor() {
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2 + 100;
+        this.size = Math.random() * 8 + 5;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Emitter speed vectors
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 15 + 10;
+        this.vx = Math.cos(angle) * velocity;
+        this.vy = Math.sin(angle) * velocity - 5; // Upward bias
+        this.gravity = 0.35;
+        this.opacity = 1;
+        this.decay = Math.random() * 0.015 + 0.01;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += this.gravity;
+        this.vx *= 0.98; // Drag
+        this.opacity -= this.decay;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.fill();
+      }
+    }
+
+    // Populate particles
+    for (let i = 0; i < 150; i++) {
+      particles.push(new Confetti());
+    }
+
+    const run = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Update and draw remaining particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        if (p.opacity <= 0) {
+          particles.splice(i, 1);
+        } else {
+          p.draw();
+        }
+      }
+
+      if (particles.length > 0) {
+        animationRef.current = requestAnimationFrame(run);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+
+    run();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Log submitted data
-    console.log("Submitted Data:", {
-      name,
-      email,
-      message,
-    });
-
-    setSubmitted(true); 
+    console.log('Submitted Contact Data:', { name, email, message });
+    setSubmitted(true);
   };
 
-  return (
-    <section id="contact" className="dark:bg-dark-900 bg-gradient-to-b from-gray-800 text-white py-16 px-6">
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between">
-        {/* Contact Form */}
-        {!submitted ? (
-          <div className="lg:w-1/2 mb-8 lg:mb-0">
-            <h2 className="text-3xl font-bold text-red-500 mb-6">Get In Touch</h2>
-            <p className="text-lg text-gray-400 mb-8">
-              Have a question or want to work together? Reach out to me!
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-dark-800 p-6 rounded-lg shadow-lg">
-              <div className="mb-4">
-                <input
-                  type="text"
-                  value={name} // Bind value to state
-                  onChange={(e) => setName(e.target.value)} // Update state on change
-                  className="w-full p-3 rounded-lg bg-dark-700 text-black focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300"
-                  placeholder="Your Name"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  type="email"
-                  value={email} // Bind value to state
-                  onChange={(e) => setEmail(e.target.value)} // Update state on change
-                  className="w-full p-3 rounded-lg bg-dark-700 text-black focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300"
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <textarea
-                  rows="5"
-                  value={message} // Bind value to state
-                  onChange={(e) => setMessage(e.target.value)} // Update state on change
-                  className="w-full p-3 rounded-lg bg-dark-700 text-black focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300"
-                  placeholder="Your Message"
-                  required
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-        ) : (
-          // Success Message
-          <div className="lg:w-1/2 mb-8 lg:mb-0 text-center">
-            <h2 className="text-3xl font-bold text-red-500 mb-6">Thank You!</h2>
-            <p className="text-lg text-gray-400 mb-4">
-              Your message has been submitted successfully.
-            </p>
-            <p className="text-gray-300">
-              I look forward to connecting with you soon!
-            </p>
-          </div>
-        )}
+  // Launch confetti when submitted turns true
+  useEffect(() => {
+    if (submitted) {
+      setTimeout(() => {
+        triggerConfetti();
+      }, 100);
+    }
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [submitted]);
 
-        {/* Contact Details */}
-        <div className="lg:w-1/2 mt-8 lg:mt-0 lg:pl-10">
-          <h3 className="text-2xl font-bold text-red-500 mb-4">Contact Details</h3>
-          <p className="text-lg text-gray-400 mb-2">Feel free to reach out through any of the following methods:</p>
-          <ul className="list-none">
-            <li className="mb-2">
-              <strong>Email:</strong>{' '}
-              <a
-                href="mailto:abhishekvishwakarma460@gmail.com"
-                className="flex items-center text-red-500 hover:underline transition duration-300"
-                aria-label="Send an email to abhishekvishwakarma460@gmail.com"
-              >
-                <FaEnvelope className="mr-2 text-xl" /> abhishekvishwakarma460@gmail.com
-              </a>
-            </li>
-            <li className="mb-2">
-              <strong>Phone:</strong>
-              <a
-                href="tel:+919915857465"
-                className="flex items-center text-red-500 hover:underline transition duration-300"
-                aria-label="Call +91 99158 57465"
-              >
-                <FaPhoneAlt className="mr-2 text-xl" /> +91 99158 57465
-              </a>
-            </li>
-            <li className="mb-2">
-              <strong>Twitter:</strong>{' '}
-              <a 
-                href="https://twitter.com/@abhisharma0812" 
-                className="flex items-center text-red-500 hover:underline transition duration-300" 
-                target='_blank' 
-                rel="noopener noreferrer"
-              >
-                <FaTwitter className="mr-2" /> @abhisharma0812
-              </a>
-            </li>
-            <li className="mb-2">
-              <strong>LinkedIn:</strong>{' '}
-              <a 
-                href="https://www.linkedin.com/in/abhiwebdev" 
-                className="flex items-center text-red-500 hover:underline transition duration-300" 
-                target='_blank' 
-                rel="noopener noreferrer"
-              >
-                <FaLinkedin className="mr-2" /> Connect with me on LinkedIn
-              </a>
-            </li>
-          </ul>
-          <p className="text-lg text-gray-400 mt-4">
-            I look forward to connecting with you and exploring new opportunities together!
+  return (
+    <section id="contact" className="py-24 relative px-6 overflow-hidden">
+      {/* Confetti overlay layer */}
+      {submitted && (
+        <canvas
+          ref={canvasRef}
+          className="fixed inset-0 w-full h-full pointer-events-none z-[110]"
+        />
+      )}
+
+      {/* Background radial highlight */}
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px] -z-10" />
+
+      <div className="container mx-auto max-w-6xl">
+        {/* Section Heading */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">Get In Touch</h2>
+          <p className="text-white/50 text-sm max-w-md mx-auto">
+            Ready to build something amazing? Feel free to reach out using the form or direct networks.
           </p>
+          <div className="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mt-4" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Form Block (Takes 7 cols) */}
+          <div className="lg:col-span-7">
+            <Card3DTilt className="h-full p-8 border border-white/10" maxRotation={4}>
+              {!submitted ? (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Send a Message</h3>
+                    <p className="text-xs sm:text-sm text-white/50">I reply to all inquiries within 24 business hours.</p>
+                  </div>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-semibold"
+                        placeholder="Your Name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-semibold"
+                        placeholder="Your Email Address"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        rows="5"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-semibold resize-none"
+                        placeholder="Your Message"
+                        required
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-primary hover:bg-primary/95 text-white font-bold transition-all shadow-[0_8px_25px_rgba(var(--color-primary)/0.25)] hover:shadow-[0_12px_30px_rgba(var(--color-primary)/0.4)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 text-sm"
+                    >
+                      <FaPaperPlane className="text-xs" /> Send Message
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                /* Success view */
+                <div className="flex flex-col items-center justify-center text-center py-16 space-y-6">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center animate-bounce">
+                    <FaCheckCircle className="text-4xl" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black text-white">Thank You, {name}!</h3>
+                    <p className="text-sm text-white/50 mt-2 max-w-sm mx-auto">
+                      Your message has been successfully broadcast. I'll connect with you soon.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setName('');
+                      setEmail('');
+                      setMessage('');
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10 transition-colors text-xs"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
+              )}
+            </Card3DTilt>
+          </div>
+
+          {/* Social details (Takes 5 cols) */}
+          <div className="lg:col-span-5">
+            <Card3DTilt className="h-full p-8 border border-white/10 flex flex-col justify-between" maxRotation={4}>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Connect Directly</h3>
+                  <p className="text-xs sm:text-sm text-white/50">Prefer other communication networks?</p>
+                </div>
+
+                <ul className="space-y-4">
+                  {/* Email */}
+                  <li>
+                    <a
+                      href="mailto:abhishekvishwakarma460@gmail.com"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
+                    >
+                      <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <FaEnvelope className="text-base" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-white/40 uppercase">Email</div>
+                        <div className="text-xs sm:text-sm font-semibold text-white/95 truncate max-w-[200px] sm:max-w-none">
+                          abhishekvishwakarma460@gmail.com
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+
+                  {/* Phone */}
+                  <li>
+                    <a
+                      href="tel:+919915857465"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
+                    >
+                      <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <FaPhoneAlt className="text-base" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-white/40 uppercase">Call / SMS</div>
+                        <div className="text-xs sm:text-sm font-semibold text-white/95">+91 99158 57465</div>
+                      </div>
+                    </a>
+                  </li>
+
+                  {/* LinkedIn */}
+                  <li>
+                    <a
+                      href="https://www.linkedin.com/in/abhiwebdev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
+                    >
+                      <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <FaLinkedin className="text-base" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-white/40 uppercase">LinkedIn</div>
+                        <div className="text-xs sm:text-sm font-semibold text-white/95">linkedin.com/in/abhiwebdev</div>
+                      </div>
+                    </a>
+                  </li>
+
+                  {/* Twitter */}
+                  <li>
+                    <a
+                      href="https://twitter.com/@abhisharma0812"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
+                    >
+                      <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <FaTwitter className="text-base" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-white/40 uppercase">Twitter</div>
+                        <div className="text-xs sm:text-sm font-semibold text-white/95">@abhisharma0812</div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-6 border-t border-white/5 text-center text-xs text-white/30 font-semibold tracking-wide">
+                Located in Punjab, India (LPU campus). Eager to relocate.
+              </div>
+            </Card3DTilt>
+          </div>
         </div>
       </div>
     </section>
