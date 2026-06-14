@@ -82,11 +82,10 @@ const ThemeCustomizer = () => {
     >
       {/* Theme selection panel */}
       <div
-        className={`glass-container rounded-2xl p-4 transition-all duration-500 origin-bottom-right shadow-2xl flex flex-col gap-3 ${
-          isOpen
+        className={`glass-container rounded-2xl p-4 transition-all duration-500 origin-bottom-right shadow-2xl flex flex-col gap-3 ${isOpen
             ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 scale-75 translate-y-4 pointer-events-none'
-        }`}
+          }`}
         style={{ width: '220px' }}
       >
         <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-1">
@@ -98,11 +97,10 @@ const ThemeCustomizer = () => {
             <button
               key={theme.id}
               onClick={() => applyTheme(theme)}
-              className={`flex items-center justify-between p-2 rounded-xl transition-all duration-300 ${
-                activeTheme === theme.id
+              className={`flex items-center justify-between p-2 rounded-xl transition-all duration-300 ${activeTheme === theme.id
                   ? 'bg-white/10 text-white border border-white/20'
                   : 'text-white/60 hover:text-white hover:bg-white/5 border border-transparent'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2">
                 <span className={`w-3.5 h-3.5 rounded-full ${theme.colorClass} shadow-md`} />

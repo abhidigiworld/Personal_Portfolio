@@ -82,7 +82,7 @@ const Footer = () => {
           {/* Back to Top */}
           <button
             onClick={scrollToTop}
-            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-primary/10 border border-white/10 hover:border-primary/20 transition-all duration-300 text-white/50 hover:text-white"
+            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-primary/10 border border-white/10 hover:border-primary/20 transition-all duration-300 text-white/50 hover:text-white sm:mr-20"
             aria-label="Back to top"
           >
             <span className="text-xs font-bold uppercase tracking-wider">Back to Top</span>
