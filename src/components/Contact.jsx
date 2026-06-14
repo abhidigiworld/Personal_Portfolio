@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaTwitter, FaLinkedin, FaEnvelope, FaPhoneAlt, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import { FaTwitter, FaLinkedin, FaGithub, FaEnvelope, FaPhoneAlt, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import Card3DTilt from './Card3DTilt';
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -31,11 +33,10 @@ const Contact = () => {
         this.size = Math.random() * 8 + 5;
         this.color = colors[Math.floor(Math.random() * colors.length)];
         
-        // Emitter speed vectors
         const angle = Math.random() * Math.PI * 2;
         const velocity = Math.random() * 15 + 10;
         this.vx = Math.cos(angle) * velocity;
-        this.vy = Math.sin(angle) * velocity - 5; // Upward bias
+        this.vy = Math.sin(angle) * velocity - 5;
         this.gravity = 0.35;
         this.opacity = 1;
         this.decay = Math.random() * 0.015 + 0.01;
@@ -45,7 +46,7 @@ const Contact = () => {
         this.x += this.vx;
         this.y += this.vy;
         this.vy += this.gravity;
-        this.vx *= 0.98; // Drag
+        this.vx *= 0.98;
         this.opacity -= this.decay;
       }
 
@@ -58,7 +59,6 @@ const Contact = () => {
       }
     }
 
-    // Populate particles
     for (let i = 0; i < 150; i++) {
       particles.push(new Confetti());
     }
@@ -66,7 +66,6 @@ const Contact = () => {
     const run = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update and draw remaining particles
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.update();
@@ -87,10 +86,43 @@ const Contact = () => {
     run();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitted Contact Data:', { name, email, message });
-    setSubmitted(true);
+    setSending(true);
+    setSendError('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'YOUR_ACCESS_KEY_HERE',
+          name: name,
+          email: email,
+          message: message,
+          subject: `Portfolio Contact: Message from ${name}`,
+          from_name: 'Portfolio Website',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        // Fallback: open mailto link directly
+        const mailtoLink = `mailto:abhishekvishwakarma460@gmail.com?subject=${encodeURIComponent(`Portfolio Contact from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+        window.location.href = mailtoLink;
+        setSubmitted(true);
+      }
+    } catch (err) {
+      // If Web3Forms fails, fall back to mailto
+      const mailtoLink = `mailto:abhishekvishwakarma460@gmail.com?subject=${encodeURIComponent(`Portfolio Contact from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+      window.location.href = mailtoLink;
+      setSubmitted(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   // Launch confetti when submitted turns true
@@ -169,11 +201,29 @@ const Contact = () => {
                         required
                       ></textarea>
                     </div>
+
+                    {sendError && (
+                      <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold">
+                        <FaExclamationTriangle />
+                        {sendError}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-primary hover:bg-primary/95 text-white font-bold transition-all shadow-[0_8px_25px_rgba(var(--color-primary)/0.25)] hover:shadow-[0_12px_30px_rgba(var(--color-primary)/0.4)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 text-sm"
+                      disabled={sending}
+                      className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-primary hover:bg-primary/95 text-white font-bold transition-all shadow-[0_8px_25px_rgba(var(--color-primary)/0.25)] hover:shadow-[0_12px_30px_rgba(var(--color-primary)/0.4)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 text-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                     >
-                      <FaPaperPlane className="text-xs" /> Send Message
+                      {sending ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <FaPaperPlane className="text-xs" /> Send Message
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>
@@ -186,7 +236,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-2xl font-black text-white">Thank You, {name}!</h3>
                     <p className="text-sm text-white/50 mt-2 max-w-sm mx-auto">
-                      Your message has been successfully broadcast. I'll connect with you soon.
+                      Your message has been sent successfully. I'll get back to you soon.
                     </p>
                   </div>
                   <button
@@ -195,6 +245,7 @@ const Contact = () => {
                       setName('');
                       setEmail('');
                       setMessage('');
+                      setSendError('');
                     }}
                     className="px-6 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold border border-white/10 transition-colors text-xs"
                   >
@@ -211,7 +262,7 @@ const Contact = () => {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Connect Directly</h3>
-                  <p className="text-xs sm:text-sm text-white/50">Prefer other communication networks?</p>
+                  <p className="text-xs sm:text-sm text-white/50">Prefer other communication channels?</p>
                 </div>
 
                 <ul className="space-y-4">
@@ -267,10 +318,28 @@ const Contact = () => {
                     </a>
                   </li>
 
+                  {/* GitHub */}
+                  <li>
+                    <a
+                      href="https://github.com/abhidigiworld"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
+                    >
+                      <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <FaGithub className="text-base" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-white/40 uppercase">GitHub</div>
+                        <div className="text-xs sm:text-sm font-semibold text-white/95">github.com/abhidigiworld</div>
+                      </div>
+                    </a>
+                  </li>
+
                   {/* Twitter */}
                   <li>
                     <a
-                      href="https://twitter.com/@abhisharma0812"
+                      href="https://twitter.com/abhisharma0812"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-primary/10 border border-white/5 hover:border-primary/20 transition-all group"
@@ -288,7 +357,7 @@ const Contact = () => {
               </div>
 
               <div className="pt-6 border-t border-white/5 text-center text-xs text-white/30 font-semibold tracking-wide">
-                Located in Punjab, India (LPU campus). Eager to relocate.
+                Based in India · Currently at Cognizant Technology Solutions
               </div>
             </Card3DTilt>
           </div>

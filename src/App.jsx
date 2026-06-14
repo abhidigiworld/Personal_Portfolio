@@ -4,11 +4,11 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
+import Certifications from './components/Certifications';
 import Projects from './components/Projects';
+import VideoCV from './components/VideoCV';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import VideoCV from './components/VideoCV';
-import LeetCodeFetcher from './components/LeetCodeFetcher';
 import Interactive3DCanvas from './components/Interactive3DCanvas';
 import ThemeCustomizer from './components/ThemeCustomizer';
 
@@ -28,9 +28,9 @@ function App() {
         <Hero />
         <About />
         <Experience />
-        <VideoCV />
+        <Certifications />
         <Projects />
-        <LeetCodeFetcher />
+        <VideoCV />
         <Contact />
       </main>
 

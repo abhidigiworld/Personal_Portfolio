@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaGithub, FaGlobe, FaFolder, FaCodeBranch, FaExternalLinkAlt } from 'react-icons/fa';
 import Card3DTilt from './Card3DTilt';
+import AnimateIn from './AnimateIn';
 
 const curatedProjects = [
   {
@@ -84,18 +85,21 @@ const Projects = () => {
 
       <div className="container mx-auto max-w-6xl">
         {/* Section Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">My Projects</h2>
-          <p className="text-white/50 text-sm max-w-md mx-auto">
-            A selection of my core engineering projects, followed by live repositories dynamically fetched from GitHub.
-          </p>
-          <div className="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mt-4" />
-        </div>
+        <AnimateIn direction="up">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">My Projects</h2>
+            <p className="text-white/50 text-sm max-w-md mx-auto">
+              A selection of my core engineering projects, followed by live repositories dynamically fetched from GitHub.
+            </p>
+            <div className="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mt-4" />
+          </div>
+        </AnimateIn>
 
         {/* Curated Top Projects */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           {curatedProjects.map((p, idx) => (
-            <Card3DTilt key={idx} className="p-8 border border-white/10 flex flex-col justify-between h-[420px]" maxRotation={10}>
+            <AnimateIn key={idx} direction="up" delay={idx * 150}>
+            <Card3DTilt className="p-8 border border-white/10 flex flex-col justify-between h-[420px]" maxRotation={10}>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-primary">
                   <FaFolder className="text-2xl" />
@@ -138,10 +142,12 @@ const Projects = () => {
                 </div>
               </div>
             </Card3DTilt>
+            </AnimateIn>
           ))}
         </div>
 
         {/* GitHub Repository Explorer */}
+        <AnimateIn direction="up">
         <div>
           <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
             <div>
@@ -224,6 +230,7 @@ const Projects = () => {
             </div>
           )}
         </div>
+        </AnimateIn>
       </div>
     </section>
   );

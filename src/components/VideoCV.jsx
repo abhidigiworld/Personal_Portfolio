@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card3DTilt from './Card3DTilt';
-import { FaPlay, FaVideo, FaStar } from 'react-icons/fa';
+import { FaVideo, FaStar, FaExternalLinkAlt } from 'react-icons/fa';
+
+const DRIVE_VIDEO_ID = '1cNHK4uyTO6tp-v9PsdH4uFLK3ITamA4z';
+const DRIVE_PREVIEW_URL = `https://drive.google.com/file/d/${DRIVE_VIDEO_ID}/preview`;
+const DRIVE_DIRECT_URL = `https://drive.google.com/file/d/${DRIVE_VIDEO_ID}/view`;
 
 const VideoCV = () => {
+  const [iframeError, setIframeError] = useState(false);
+
   return (
     <section id="video-cv" className="py-24 relative px-6 overflow-hidden">
       {/* Accent Light Glows */}
@@ -22,7 +28,7 @@ const VideoCV = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Side: Video Player Mock (Takes 7 cols) */}
+          {/* Left Side: Video Player (Takes 7 cols) */}
           <div className="lg:col-span-7 w-full">
             <Card3DTilt className="p-2.5 rounded-3xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" maxRotation={5}>
               <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-950 border border-white/5">
@@ -34,16 +40,48 @@ const VideoCV = () => {
                   <span className="text-[10px] text-white/30 font-semibold mx-auto tracking-wide">developer_introduction.mp4</span>
                 </div>
 
-                {/* Video iframe embed */}
-                <iframe
-                  className="w-full h-full pt-8"
-                  src="https://drive.google.com/file/d/1cNHK4uyTO6tp-v9PsdH4uFLK3ITamA4z/preview"
-                  title="Video CV"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                ></iframe>
+                {/* Video iframe embed with fallback */}
+                {!iframeError ? (
+                  <iframe
+                    className="w-full h-full pt-8"
+                    src={DRIVE_PREVIEW_URL}
+                    title="Video CV - Abhishek Kumar Sharma"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    onError={() => setIframeError(true)}
+                  ></iframe>
+                ) : (
+                  <div className="w-full h-full pt-8 flex flex-col items-center justify-center gap-4 px-6 text-center">
+                    <FaVideo className="text-4xl text-white/20" />
+                    <p className="text-sm text-white/50 max-w-xs">
+                      The video couldn't be loaded in this browser. Click below to watch it directly.
+                    </p>
+                    <a
+                      href={DRIVE_DIRECT_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                    >
+                      <FaExternalLinkAlt className="text-[10px]" />
+                      Watch on Google Drive
+                    </a>
+                  </div>
+                )}
               </div>
             </Card3DTilt>
+
+            {/* Always show a direct link below the player */}
+            <div className="mt-4 text-center">
+              <a
+                href={DRIVE_DIRECT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-primary transition-colors font-semibold"
+              >
+                <FaExternalLinkAlt className="text-[8px]" />
+                Can't see the video? Open directly on Google Drive
+              </a>
+            </div>
           </div>
 
           {/* Right Side: Bio Points (Takes 5 cols) */}
@@ -56,7 +94,7 @@ const VideoCV = () => {
                 Let me introduce myself in <span className="text-gradient">60 seconds</span>
               </h3>
               <p className="text-white/60 leading-relaxed text-sm sm:text-base">
-                In this video CV, I run through my background, tech stack preferences, and show a breakdown of my engineering workflow.
+                In this video CV, I walk through my professional background at Cognizant, my AI and full-stack tech stack, and show a breakdown of my engineering approach.
               </p>
             </div>
 
@@ -64,13 +102,13 @@ const VideoCV = () => {
               <div className="relative">
                 <h4 className="font-bold text-white text-sm sm:text-base">Core Highlights</h4>
                 <p className="text-white/60 text-xs sm:text-sm mt-1">
-                  Summary of billing system projects, photo portfolios, and tasks managed in Angular.
+                  RAG systems, AI agentic frameworks, enterprise billing solutions, and cloud-native microservices.
                 </p>
               </div>
               <div className="relative">
                 <h4 className="font-bold text-white text-sm sm:text-base">Continuous Growth</h4>
                 <p className="text-white/60 text-xs sm:text-sm mt-1">
-                  Eager to join high-performing teams, build production-ready applications, and tackle complex system scaling.
+                  Building production-ready AI applications and tackling complex enterprise-scale architecture challenges at Cognizant.
                 </p>
               </div>
             </div>

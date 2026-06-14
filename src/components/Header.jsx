@@ -4,7 +4,9 @@ import { HomeIcon, UserIcon, BriefcaseIcon, CodeBracketIcon, EnvelopeIcon, Bars3
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
+  // Scroll detection for glass nav
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -13,16 +15,50 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // IntersectionObserver for active section tracking
+  useEffect(() => {
+    const sectionIds = ['home', 'about', 'experience', 'projects', 'contact'];
+    const observers = [];
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
+      );
+
+      observer.observe(element);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
+  // Close mobile menu on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) setIsOpen(false);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isOpen]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const navLinks = [
-    { href: '#home', label: 'Home', icon: HomeIcon },
-    { href: '#about', label: 'About', icon: UserIcon },
-    { href: '#experience', label: 'Experience', icon: BriefcaseIcon },
-    { href: '#projects', label: 'Projects', icon: CodeBracketIcon },
-    { href: '#contact', label: 'Contact', icon: EnvelopeIcon },
+    { href: '#home', label: 'Home', icon: HomeIcon, id: 'home' },
+    { href: '#about', label: 'About', icon: UserIcon, id: 'about' },
+    { href: '#experience', label: 'Experience', icon: BriefcaseIcon, id: 'experience' },
+    { href: '#projects', label: 'Projects', icon: CodeBracketIcon, id: 'projects' },
+    { href: '#contact', label: 'Contact', icon: EnvelopeIcon, id: 'contact' },
   ];
 
   return (
@@ -49,15 +85,22 @@ const Header = () => {
             <ul className="flex items-center space-x-8">
               {navLinks.map((link) => {
                 const IconComponent = link.icon;
+                const isActive = activeSection === link.id;
                 return (
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="text-white/80 hover:text-white transition-all duration-300 flex items-center gap-1.5 text-sm font-semibold group relative py-1"
+                      className={`transition-all duration-300 flex items-center gap-1.5 text-sm font-semibold group relative py-1 ${
+                        isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                      }`}
                     >
-                      <IconComponent className="h-4 w-4 text-primary group-hover:scale-125 transition-transform duration-300" />
+                      <IconComponent className={`h-4 w-4 transition-all duration-300 ${
+                        isActive ? 'text-primary scale-110' : 'text-primary/60 group-hover:text-primary group-hover:scale-125'
+                      }`} />
                       <span>{link.label}</span>
-                      <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
+                      <span className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 rounded-full ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`} />
                     </a>
                   </li>
                 );
@@ -86,14 +129,21 @@ const Header = () => {
           <ul className="flex flex-col gap-4">
             {navLinks.map((link) => {
               const IconComponent = link.icon;
+              const isActive = activeSection === link.id;
               return (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-white/80 hover:text-white hover:bg-white/5 p-3 rounded-xl transition-all duration-300 flex items-center gap-3 text-base font-bold border border-transparent hover:border-white/5 group"
+                    className={`p-3 rounded-xl transition-all duration-300 flex items-center gap-3 text-base font-bold border group ${
+                      isActive
+                        ? 'text-white bg-primary/10 border-primary/20'
+                        : 'text-white/80 hover:text-white hover:bg-white/5 border-transparent hover:border-white/5'
+                    }`}
                   >
-                    <IconComponent className="h-5 w-5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                    <IconComponent className={`h-5 w-5 transition-transform duration-300 ${
+                      isActive ? 'text-primary' : 'text-primary/60 group-hover:text-primary group-hover:scale-110'
+                    }`} />
                     <span>{link.label}</span>
                   </a>
                 </li>
