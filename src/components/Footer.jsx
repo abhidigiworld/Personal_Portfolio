@@ -15,7 +15,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="py-12 border-t border-white/10 relative overflow-hidden bg-black/20">
+    <footer className="py-12 border-t border-white/10 relative z-20 overflow-hidden bg-black/20">
       <div className="container mx-auto max-w-6xl px-6">
         {/* Top Row: Nav + Socials */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
@@ -82,7 +82,7 @@ const Footer = () => {
           {/* Back to Top */}
           <button
             onClick={scrollToTop}
-            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-primary/10 border border-white/10 hover:border-primary/20 transition-all duration-300 text-white/50 hover:text-white sm:mr-20"
+            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-primary/10 border border-white/10 hover:border-primary/20 transition-all duration-300 text-white/50 hover:text-white sm:mr-24 relative z-30"
             aria-label="Back to top"
           >
             <span className="text-xs font-bold uppercase tracking-wider">Back to Top</span>

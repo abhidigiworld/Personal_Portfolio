@@ -82,10 +82,11 @@ const ThemeCustomizer = () => {
     >
       {/* Theme selection panel */}
       <div
-        className={`glass-container rounded-2xl p-4 transition-all duration-500 origin-bottom-right shadow-2xl flex flex-col gap-3 ${isOpen
-            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 scale-75 translate-y-4 pointer-events-none'
-          }`}
+        className={`glass-container rounded-2xl p-4 transition-all duration-500 origin-bottom-right shadow-2xl flex flex-col gap-3 ${
+          isOpen
+            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto visible'
+            : 'opacity-0 scale-75 translate-y-4 pointer-events-none invisible'
+        }`}
         style={{ width: '220px' }}
       >
         <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-1">
