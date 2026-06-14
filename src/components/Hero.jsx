@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import abimage from '../assets/images/png2.jpg';
+import abimage from '../assets/images/professional_avatar.png';
 import Card3DTilt from './Card3DTilt';
 import AnimateIn from './AnimateIn';
 import { FaDownload, FaArrowRight } from 'react-icons/fa';
